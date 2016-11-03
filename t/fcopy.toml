@@ -1,0 +1,25 @@
+#!/home/marcel/bin/fcopy
+#-------------------------------------------------------------------------------
+[basic]
+
+[filters]
+
+[options]
+  verbose               => 2
+  times                 => true
+  keep-permissions      => true
+  human-readable        => true
+  log                   => true
+  recursive             => true
+  checksum              => true
+  one-file-system       => true
+  update                => true
+  
+#-------------------------------------------------------------------------------
+[basic.fotos]
+  source                => '/home/Data/Fotos/'
+  destination           => 'marcel@192.168.192.253:/home/Data/Fotos/'
+
+[option.fotos]
+   log                   => false
+ 

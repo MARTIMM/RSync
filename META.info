@@ -1,0 +1,16 @@
+{
+  "authors": [
+    "Marcel Timmerman"
+  ],
+  "depends": [
+  ],
+  "description": "Copy files using rsync",
+  "license": "The Artistic License 2.0",
+  "name": "File::RSync",
+  "perl": "6.c",
+  "provides": {
+    "File::RSync":    "lib/PFile/RSync.pm6"
+  },
+  "source-url": "git://github.com/MARTIMM/RSync.git",
+  "version": "v0.0.1"
+}
