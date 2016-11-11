@@ -1,0 +1,34 @@
+#!/home/marcel/bin/fcopy
+#-------------------------------------------------------------------------------
+# What to expect
+# > fcopy config fotos opt1
+#   get options and filters 
+#   then merge from options.fotos and filters.fotos
+#   then merge from options.fotos.opt1, etc.
+#
+#-------------------------------------------------------------------------------
+[filters]
+  exclude = [ 'old', 'Old', '*.']
+
+[options]
+  verbose               = 2
+  times                 = true
+
+[Xoptions]
+  keep-permissions      = true
+  human-readable        = true
+  log                   = true
+  recursive             = true
+  checksum              = true
+  one-file-system       = true
+  update                = true
+
+#-------------------------------------------------------------------------------
+[options.fotos]
+#  sources                = [ '/home/Data/Fotos/' ]
+  source                = '/home/Data/Fotos/'
+  destination           = '/mnt/Backup/Fotos'
+  log                   = false
+
+[options.fotos.remote]
+  destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
