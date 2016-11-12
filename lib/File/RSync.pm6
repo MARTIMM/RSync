@@ -15,13 +15,14 @@ class File::RSync:auth<https://github.com/MARTIMM> {
   #-----------------------------------------------------------------------------
   method start-copy ( Str:D $target, *@options ) {
 
-    my Array $cargs = self.config-arguments( 'options', |@options);
+    my Array $o = self.config-arguments( 'options', |@options);
+    my Array $f = self.config-arguments( 'filters', |@options);
 
   } 
 
   #-----------------------------------------------------------------------------
-  method config-arguments ( *@options --> Array ) {
+  method config-arguments ( *@keys --> Array ) {
 
-    $!cdr.refine-str( @options, :str-mode(C-UNIX-OPTS-T2));
+    $!cdr.refine-str( @keys, :filter, :str-mode(C-UNIX-OPTS-T2));
   }
 }

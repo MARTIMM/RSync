@@ -9,19 +9,14 @@
 #-------------------------------------------------------------------------------
 [filters]
   exclude = [ 'old', 'Old', '*.']
+  include = [ '*' ]
+  filter = [ '+ *' ]
 
 [options]
+  dry-run               = true
   verbose               = 2
   times                 = true
-
-[Xoptions]
-  keep-permissions      = true
-  human-readable        = true
   log                   = true
-  recursive             = true
-  checksum              = true
-  one-file-system       = true
-  update                = true
 
 #-------------------------------------------------------------------------------
 [options.fotos]
@@ -29,6 +24,11 @@
   source                = '/home/Data/Fotos/'
   destination           = '/mnt/Backup/Fotos'
   log                   = false
+  dry-run               = false
 
 [options.fotos.remote]
   destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
+
+[filters.fotos]
+  exclude = [ '.precomp']
+
