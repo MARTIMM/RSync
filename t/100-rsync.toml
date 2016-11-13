@@ -21,24 +21,33 @@
   log                   = true
 
 [targets]
-  sources                = [ '/home/Data/Fotos/' ]
-  source                = '/home/Data/Fotos/'
-  destination           = '/mnt/Backup/Fotos'
+#  sources                = [ '/home/Data/Fotos/' ]
+#  source                = '/home/Data/Fotos/'
+#  destination           = '/mnt/Backup/Fotos'
 
 #-------------------------------------------------------------------------------
 [targets.fotos]
-#  sources                = [ '/home/Data/Fotos/' ]
   source                = '/home/Data/Fotos/'
-  destination           = '/mnt/Backup/Fotos'
 
 [options.fotos]
   log                   = false
   dry-run               = false
 
-[targets.fotos.remote]
-  destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
-
 [filters.fotos]
   exclude               = [ '.precomp']
   filter                = [ ]
 
+
+[options.fotos.remote]
+  log                   = true
+
+[targets.fotos.remote]
+  destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
+
+
+[options.fotos.dup]
+  dry-run               = true
+
+[targets.fotos.dup]
+  sources               = [ '/home/Foo/Fotos/', '/home/Bar/Fotos/' ]
+  destination           = '/mnt/Backup/Fotos/'
