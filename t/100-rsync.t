@@ -23,21 +23,23 @@ subtest {
 
   $cargs = $rs.config-arguments(< options fotos remote>);
   is $cargs.elems, 4, 'Four options found';
-#  .say for @$cargs;
+#.say for @$cargs;
 
 }, 'options';
 
 #-------------------------------------------------------------------------------
 subtest {
-  my Array $cargs = [sort @($rs.config-arguments('filters'))];
-  is $cargs.elems, 3, '3 filter options';
-  is $cargs[0], '--exclude=old,Old,*.', "exclude filter: $cargs[0]";
-#  .say for @$cargs;
+  my Array $fargs = $rs.config-filter('filters');
+  is $fargs.elems, 7, '4 filter options';
+  is $fargs[1], "--exclude='old'", "filter 1: $fargs[1]";
+  is $fargs[2], "--exclude='Old'", "filter 2: $fargs[2]";
+#say $fargs.perl;
 
-  $cargs = [sort @($rs.config-arguments(< filters fotos>))];
-  is $cargs[0], '--exclude=.precomp', "exclude filter: $cargs[0]";
+  $fargs = $rs.config-filter(< filters fotos>);
+  is $fargs[0], "--include='*.pdf'", "filter 0: $fargs[0]";
+  is $fargs[1], "--exclude='.precomp'", "filter 1: $fargs[1]";
 
-#  .say for @$cargs;
+#say $fargs.perl;
 }, 'filters';
 
 #-------------------------------------------------------------------------------

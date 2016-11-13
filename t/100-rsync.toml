@@ -8,9 +8,11 @@
 #
 #-------------------------------------------------------------------------------
 [filters]
-  exclude = [ 'old', 'Old', '*.']
-  include = [ '*' ]
-  filter = [ '+ *' ]
+  filter-sequence       = [ 'i=include', 'e=exclude', 'f=filter', 'e=ex2']
+  exclude               = [ 'old', 'Old', '*~']
+  ex2                   = [ '*.html']
+  include               = [ '*.pdf' ]
+  filter                = [ '- Test/', '- test' ]
 
 [options]
   dry-run               = true
@@ -18,17 +20,25 @@
   times                 = true
   log                   = true
 
+[targets]
+  sources                = [ '/home/Data/Fotos/' ]
+  source                = '/home/Data/Fotos/'
+  destination           = '/mnt/Backup/Fotos'
+
 #-------------------------------------------------------------------------------
-[options.fotos]
+[targets.fotos]
 #  sources                = [ '/home/Data/Fotos/' ]
   source                = '/home/Data/Fotos/'
   destination           = '/mnt/Backup/Fotos'
+
+[options.fotos]
   log                   = false
   dry-run               = false
 
-[options.fotos.remote]
+[targets.fotos.remote]
   destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
 
 [filters.fotos]
-  exclude = [ '.precomp']
+  exclude               = [ '.precomp']
+  filter                = [ ]
 
