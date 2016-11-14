@@ -80,7 +80,7 @@ subtest {
   my Str $cmd = $rs.get-command(< fotos dup>);
 #say $cmd;
   is $cmd, (
-       [~] "rsync --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp'",
+       [~] "rsync  --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp'",
            " --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/'",
            " '/mnt/Backup/Fotos/'"
      ), 'Command ok';
@@ -93,7 +93,7 @@ subtest {
         like .message, /:s Partial transfer due to error/, .message;
         is .code, 23, "error code {.code}";
         is .command,
-           "rsync --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp' --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/' '/mnt/Backup/Fotos/'",
+           "rsync  --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp' --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/' '/mnt/Backup/Fotos/'",
            .command;
            
       }

@@ -62,13 +62,30 @@ the server.',
   #-----------------------------------------------------------------------------
   submethod BUILD ( Str :$config-name, Array :$locations ) {
 
-    $!cdr .= new( :$config-name, :merge, :$locations);
+    try {
+      if ?$config-name {
+
+        $!cdr .= new( :$config-name, :merge, :$locations);
+      }
+
+      else {
+
+        $!cdr .= new( :merge, :$locations);
+      }
+
+      CATCH {
+        when X::Config::DataLang::Refine {
+        
+          die X::File::RSync.new(:message(.message), :code(-1), :command(''))
+        }
+      }
+    }
   }
 
   #-----------------------------------------------------------------------------
-  method run-rsync ( *@keys ) {
+  method run-rsync ( *@keys, Str :$inject = '' ) {
 
-    my $cmd = self.get-command(|@keys);
+    my $cmd = self.get-command( |@keys, :$inject);
     say ' ';
     my Proc $p = shell $cmd;
     say ' ';
@@ -81,13 +98,13 @@ the server.',
   }
 
   #-----------------------------------------------------------------------------
-  method get-command ( *@keys --> Str ) {
+  method get-command ( *@keys, Str :$inject = '' --> Str ) {
 
     my Array $o = self.config-arguments( 'options', |@keys);
     my Array $f = self.config-filter( 'filters', |@keys);
     my Array $t = self.config-targets( 'targets', |@keys);
 
-    ( 'rsync', @$o, @$f, @$t).join(' ');
+    ( 'rsync', $inject, @$o, @$f, @$t).join(' ');
   } 
 
   #-----------------------------------------------------------------------------
