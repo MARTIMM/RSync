@@ -5,12 +5,61 @@
 
 ## Synopsis
 
+An example TOML configuration might be
 ```
-fcopy config.toml target target-opt1 target-opt2
+# Basic setup
+[filters]
+  filter-sequence       = [ 'i=include', 'e=exclude', 'f=filter', 'e=ex2']
+  exclude               = [ 'old', 'Old', '*~']
+  ex2                   = [ '*.html']
+  include               = [ '*.pdf' ]
+  filter                = [ '- Test/', '- test' ]
+
+[options]
+  dry-run               = true
+  verbose               = 2
+  times                 = true
+  log                   = true
+
+# My fotos
+[targets.fotos]
+  source                = '/home/Data/Fotos/'
+
+[options.fotos]
+  log                   = false
+  dry-run               = false
+
+[filters.fotos]
+  exclude               = [ '.precomp']
+  filter                = [ ]
+
+# On remote machine
+[options.fotos.remote]
+  log                   = true
+
+[targets.fotos.remote]
+  destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
+
+# Duplicates
+[options.fotos.dup]
+  dry-run               = true
+
+[targets.fotos.dup]
+  sources               = [ '/home/Foo/Fotos/', '/home/Bar/Fotos/' ]
+  destination           = '/mnt/Backup/Fotos/'
 ```
+The following command;
+```
+fcopy config.toml fotos dup
+```
+will result in the rsync command and run
+```
+rsync --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp' --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/' '/mnt/Backup/Fotos/'
+```
+
 ## Description
 
-Rsync can be used from the commandline. The number of options is awsome and because of that difficult to remember. You can use the command from a script started by the cron schedular. This distribution helps to replace those scripts with a command ```fcopy``` which reads one or more toml configuration files to do what you like to do.
+Rsync can be used from the commandline. The number of options is awsome and because of that difficult to remember. You can use the command from a script started by the cron schedular but, because there are so many options, it is difficult to remember what it does when you look at the command again. This distribution helps to replace those scripts with a command ```fcopy``` which merges one or more toml configuration files and construct the rsync command for you. The TOML file is easy to read and therefore easy to maintain.
 
 ## Documentation
 
