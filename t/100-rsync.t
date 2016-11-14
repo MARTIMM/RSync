@@ -85,7 +85,6 @@ subtest {
            " '/mnt/Backup/Fotos/'"
      ), 'Command ok';
 
-
   try {
     $rs.run-rsync(< fotos dup>);
 
@@ -93,6 +92,10 @@ subtest {
       default {
         like .message, /:s Partial transfer due to error/, .message;
         is .code, 23, "error code {.code}";
+        is .command,
+           "rsync --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp' --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/' '/mnt/Backup/Fotos/'",
+           .command;
+           
       }
     }
   }

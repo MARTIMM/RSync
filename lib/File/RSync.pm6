@@ -4,11 +4,12 @@ use Config::DataLang::Refine;
 class X::File::RSync is Exception {
   has Str $.message;
   has Int $.code;
+  has Str $.command;
 
-  submethod BUILD ( Str :$message, Int :$code ) {
-    $!message = $message;
-    $!code = $code;
-  }
+#  submethod BUILD ( Str :$message, Int :$code ) {
+#    $!message = $message;
+#    $!code = $code;
+#  }
 }
 
 class File::RSync:auth<https://github.com/MARTIMM> {
@@ -68,10 +69,14 @@ the server.',
   method run-rsync ( *@keys ) {
 
     my $cmd = self.get-command(|@keys);
+    say ' ';
     my Proc $p = shell $cmd;
+    say ' ';
+
     die X::File::RSync.new(
       :code($p.exitcode),
-      :message($!map-errors[$p.exitcode])
+      :message($!map-errors[$p.exitcode]),
+      :command($p.command.join(' '))
     ) if $p.exitcode;
   }
 
@@ -142,7 +147,8 @@ the server.',
     else {
       die X::File::RSync.new(
         :message('No sources defined to copy files from')
-        :code(-1)
+        :code(-1),
+        :command<->
       );
     }
 
@@ -153,7 +159,8 @@ the server.',
     else {
       die X::File::RSync.new(
         :message('No destination defined to copy files to')
-        :code(-1)
+        :code(-1),
+        :command<->
       );
     }
 
