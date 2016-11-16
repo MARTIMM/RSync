@@ -1,7 +1,6 @@
 # Copying/backing up files using rsync
 
 [![Travis Build Status](https://travis-ci.org/MARTIMM/RSync.svg?branch=master)](https://travis-ci.org/MARTIMM/RSync)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/MARTIMM/rsync?branch=master&passingText=Windows%20-%20OK&failingText=Windows%20-%20FAIL&pendingText=Windows%20-%20pending&svg=true)](https://ci.appveyor.com/project/MARTIMM/rsync/branch/master)
 [![License](http://martimm.github.io/label/License-label.svg)](http://www.perlfoundation.org/artistic_license_2_0)
 
 ## Synopsis
