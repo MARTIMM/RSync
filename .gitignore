@@ -5,5 +5,5 @@ Old/*
 Tests/insert*
 *.log
 .precomp
-*/.procomp
+*/.precomp
 *.zargo~
