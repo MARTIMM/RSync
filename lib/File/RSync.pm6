@@ -1,4 +1,4 @@
-use v6.c;
+use v6;
 use Config::DataLang::Refine;
 
 class X::File::RSync is Exception {
@@ -75,7 +75,7 @@ the server.',
 
       CATCH {
         when X::Config::DataLang::Refine {
-        
+
           die X::File::RSync.new(:message(.message), :code(-1), :command(''))
         }
       }
@@ -105,7 +105,7 @@ the server.',
     my Array $t = self.config-targets( 'targets', |@keys);
 
     ( 'rsync', $inject, @$o, @$f, @$t).join(' ');
-  } 
+  }
 
   #-----------------------------------------------------------------------------
   method config-arguments ( *@keys --> Array ) {
