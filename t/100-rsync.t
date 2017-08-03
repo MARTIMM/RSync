@@ -1,11 +1,11 @@
-use v6.c;
+use v6;
 use Test;
 use File::RSync;
 
 my File::RSync $rs .= new( :config-name<100-rsync.toml>, :locations(['t']));
 
-#-------------------------------------------------------------------------------
-subtest {
+#------------------------------------------------------------------------------
+subtest 'options', {
   my Array $cargs = [sort @($rs.config-arguments('options'))];
   is $cargs.elems, 4, 'Four options found';
   is $cargs[0], '--dry-run', "1st is $cargs[0]";
@@ -23,10 +23,10 @@ subtest {
   is $cargs.elems, 3, 'Three options found';
 #.say for @$cargs;
 
-}, 'options';
+};
 
-#-------------------------------------------------------------------------------
-subtest {
+#------------------------------------------------------------------------------
+subtest 'filters', {
   my Array $fargs = $rs.config-filter('filters');
   is $fargs.elems, 7, '4 filter options';
   is $fargs[1], "--exclude='old'", "filter 1: $fargs[1]";
@@ -38,30 +38,18 @@ subtest {
   is $fargs[1], "--exclude='.precomp'", "filter 1: $fargs[1]";
 
 #say $fargs.perl;
-}, 'filters';
+};
 
-#-------------------------------------------------------------------------------
-subtest {
+#------------------------------------------------------------------------------
+subtest 'targets', {
   my Array $targs;
-  try {
-    $targs = $rs.config-targets('targets');
-    
-    CATCH {
-      when X::File::RSync {
-        like .message, /:s No sources defined/, .message;
-      }
-    }
-  }
+  throws-like { $targs = $rs.config-targets('targets'); },
+      Exception, 'No sources defined',
+      :message(/:s No sources defined/);
 
-  try {
-    $targs = $rs.config-targets(< targets fotos>);
-    
-    CATCH {
-      when X::File::RSync {
-        like .message, /:s No destination defined/, .message;
-      }
-    }
-  }
+  throws-like { $targs = $rs.config-targets(< targets fotos>); },
+      Exception, 'No destination defined',
+      :message(/:s No destination defined/);
 
   $targs = $rs.config-targets(< targets fotos remote>);
   is $targs.elems, 2, 'Two targets';
@@ -73,33 +61,22 @@ subtest {
   is $targs.elems, 3, 'Three targets';
   is $targs[1], "'/home/Bar/Fotos/'", "Src 2: $targs[1]";
   is $targs[2], "'/mnt/Backup/Fotos/'", "Dst: $targs[2]";
-}, 'targets';
+};
 
-#-------------------------------------------------------------------------------
-subtest {
+#------------------------------------------------------------------------------
+subtest 'command', {
   my Str $cmd = $rs.get-command(< fotos dup>);
-#say $cmd;
-  is $cmd, (
-       [~] "rsync  --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp'",
-           " --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/'",
-           " '/mnt/Backup/Fotos/'"
-     ), 'Command ok';
+  like $cmd, /'--dry-run'/, 'Has dry run';
+  like $cmd, /"--include='*.pdf'"/, 'Has include pdf';
+#       [~] "rsync  --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp'",
+#           " --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/'",
+#           " '/mnt/Backup/Fotos/'"
+#     ), 'Command ok';
 
-  try {
-    $rs.run-rsync(< fotos dup>);
+  throws-like { $rs.run-rsync(< fotos dup>); },
+      Exception, 'Partial transfer due to error',
+      :code(23), :message(/:s Partial transfer due to error/);
+};
 
-    CATCH {
-      default {
-        like .message, /:s Partial transfer due to error/, .message;
-        is .code, 23, "error code {.code}";
-        is .command,
-           "rsync  --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp' --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/' '/mnt/Backup/Fotos/'",
-           .command;
-           
-      }
-    }
-  }
-}, 'command';
-
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 done-testing;
