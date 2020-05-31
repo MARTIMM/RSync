@@ -2,9 +2,9 @@
 #-------------------------------------------------------------------------------
 # What to expect
 # > fcopy config fotos opt1
-#   get options and filters 
-#   then merge from options.fotos and filters.fotos
-#   then merge from options.fotos.opt1, etc.
+#   get options and filters
+#   then merge from options.src and filters.src
+#   then merge from options.src.opt1, etc.
 #
 #-------------------------------------------------------------------------------
 [filters]
@@ -20,34 +20,32 @@
   times                 = true
   log                   = true
 
-[targets]
+#[targets]
 #  sources                = [ '/home/Data/Fotos/' ]
 #  source                = '/home/Data/Fotos/'
 #  destination           = '/mnt/Backup/Fotos'
 
 #-------------------------------------------------------------------------------
-[targets.fotos]
-  source                = '/home/Data/Fotos/'
+[targets.src]
+  source                = 't/src-dir'
 
-[options.fotos]
+[options.src]
   log                   = false
   dry-run               = false
 
-[filters.fotos]
+[filters.src]
   exclude               = [ '.precomp']
   filter                = [ ]
 
-
-[options.fotos.remote]
+[options.src.remote]
   log                   = true
 
-[targets.fotos.remote]
-  destination           = 'marcel@192.168.192.253:/home/Data/Fotos/'
+[targets.src.remote]
+  destination           = 'marcel@192.168.192.253:/tmp/dest-dir'
 
-
-[options.fotos.dup]
+[options.src.dup]
   dry-run               = true
 
-[targets.fotos.dup]
-  sources               = [ '/home/Foo/Fotos/', '/home/Bar/Fotos/' ]
-  destination           = '/mnt/Backup/Fotos/'
+[targets.src.dup]
+#  sources               = [ '/home/Foo/Fotos/', '/home/Bar/Fotos/' ]
+  destination           = 't/dest-dir'
