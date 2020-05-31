@@ -74,6 +74,10 @@ See pod documentation in pdf format at
 
 This project is tested with latest Rakudo built on MoarVM implementing Perl v6.c.
 
+## Changes
+* 2020-05-31 0.3.2
+  * make test changes after some errors.
+
 ## Authors
 
 ```

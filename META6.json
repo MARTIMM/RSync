@@ -1,16 +1,12 @@
-{ "authors": [
-    "Marcel Timmerman"
-  ],
-  "depends": [
-    "Config::DataLang::Refine"
-  ],
-  "description": "Copy files using rsync",
-  "license": "Artistic-2.0",
+{ "authors": [ "Marcel Timmerman" ],
+  "depends": [ "Config::DataLang::Refine" ],
   "name": "File::RSync",
+  "description": "Copy files using rsync",
+  "version": "0.3.2",
+  "license": "Artistic-2.0",
   "perl": "6",
   "provides": {
     "File::RSync":    "lib/File/RSync.pm6"
   },
-  "source-url": "git://github.com/MARTIMM/RSync.git",
-  "version": "v0.3.0.3"
+  "source-url": "git://github.com/MARTIMM/RSync.git"
 }
