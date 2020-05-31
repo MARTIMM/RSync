@@ -76,7 +76,7 @@ the server.',
       CATCH {
         when X::Config::DataLang::Refine {
 
-          die X::File::RSync.new(:message(.message), :code(-1), :command(''))
+          die X::File::RSync.new( :message(.message), :code(-1), :command(''))
         }
       }
     }
