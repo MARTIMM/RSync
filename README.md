@@ -72,11 +72,13 @@ See pod documentation in pdf format at
 
 ## Versions of PERL, MOARVM
 
-This project is tested with latest Rakudo built on MoarVM implementing Perl v6.c.
+This project is tested with latest Rakudo built on MoarVM implementing Raku v6.d.
 
 ## Changes
+
 * 2020-05-31 0.3.2
   * make test changes after some errors.
+  * setup directory to do a real copy with data from config
 
 ## Authors
 
