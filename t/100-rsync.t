@@ -17,7 +17,7 @@ my File::RSync $rs .= new( :config-name<100-rsync.toml>, :locations(['t']));
 #-------------------------------------------------------------------------------
 subtest 'options', {
   my Array $cargs = [sort @($rs.config-arguments('options'))];
-  is $cargs.elems, 4, 'Four options found';
+  is $cargs.elems, 4, '4 options found';
   is $cargs[0], '--dry-run', "1st is $cargs[0]";
   is $cargs[1], '--log', "2nd is $cargs[0]";
   is $cargs[2], '--times', "3rd is $cargs[0]";
@@ -25,12 +25,13 @@ subtest 'options', {
 #.say for @$cargs;
 
   $cargs = [sort @($rs.config-arguments(< options src >))];
-  is $cargs.elems, 2, 'Two options found';
-  is $cargs[0], '--times', "1st is $cargs[0]";
-  is $cargs[1], '--verbose=2', "2nd is $cargs[1]";
+  is $cargs.elems, 3, '3 options found';
+  is $cargs[0], '--dry-run', "1st is $cargs[0]";
+  is $cargs[1], '--times', "2nd is $cargs[1]";
+  is $cargs[2], '--verbose=2', "3rd is $cargs[2]";
 
   $cargs = $rs.config-arguments(< options src remote>);
-  is $cargs.elems, 3, 'Three options found';
+  is $cargs.elems, 4, '4 options found';
 #.say for @$cargs;
 
 };
@@ -76,27 +77,29 @@ subtest 'targets', {
 #-------------------------------------------------------------------------------
 subtest 'command', {
   my Str $cmd = $rs.get-command(< src dup >);
-  note $cmd;
+#  note $cmd;
 
-  like $cmd, /'--dry-run'/, 'Has dry run';
+  like $cmd, /"--verbose=2"/, 'Has verbose';
   like $cmd, /"--include='*.pdf'"/, 'Has include pdf';
-#       [~] "rsync  --dry-run --times --verbose=2 --include='*.pdf' --exclude='.precomp'",
-#           " --exclude='*.html' '/home/Foo/Fotos/' '/home/Bar/Fotos/'",
-#           " '/mnt/Backup/Fotos/'"
-#     ), 'Command ok';
+  $rs.run-rsync( < src dup >, :inject<-r>);
 
-  $rs.run-rsync(< src dup >);
-#  throws-like { $rs.run-rsync(< src dup >); },
-#      X::File::RSync, 'files not found',
-#      :code(3), :message(/:s Errors selecting input\/output files/);
+  ok 't/dest-dir/src-dir'.IO.d, 'dir copied';
+  ok 't/dest-dir/src-dir/f3.txt'.IO.e, 'files copied';
 };
 
 #-------------------------------------------------------------------------------
 # cleanup
-#unlink "$sd/f1.txt";
-#unlink "$sd/f2.txt";
-#unlink "$sd/f3.txt";
-#rmdir $sd;
+unlink "$sd/f1.txt";
+unlink "$sd/f2.txt";
+unlink "$sd/f3.txt";
+rmdir $sd;
+
+$sd = 't/dest-dir/src-dir';
+unlink "$sd/f1.txt";
+unlink "$sd/f2.txt";
+unlink "$sd/f3.txt";
+rmdir $sd;
+rmdir 't/dest-dir';
 
 #-------------------------------------------------------------------------------
 done-testing;

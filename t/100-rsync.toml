@@ -31,7 +31,7 @@
 
 [options.src]
   log                   = false
-  dry-run               = false
+  dry-run               = true
 
 [filters.src]
   exclude               = [ '.precomp']
@@ -44,7 +44,7 @@
   destination           = 'marcel@192.168.192.253:/tmp/dest-dir'
 
 [options.src.dup]
-  dry-run               = true
+  dry-run               = false
 
 [targets.src.dup]
 #  sources               = [ '/home/Foo/Fotos/', '/home/Bar/Fotos/' ]
